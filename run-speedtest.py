@@ -9,8 +9,9 @@ from prometheus_client import make_wsgi_app
 
 s = speedtest.Speedtest()
 
-DOWNLOAD_SPEED = Gauge('download_speed', 'Download speed', unit="kbps")
-UPLOAD_SPEED = Gauge('upload_speed', 'Upload speed', unit="kbps")
+DOWNLOAD_SPEED = Gauge('speedtest_download', 'Speedtest download', unit="kbps")
+UPLOAD_SPEED = Gauge('speedtest_upload', 'Speedtest upload', unit="kbps")
+PING = Gauge('speedtest_ping', 'Speedtest ping', unit="ms")
 
 metrics_app = make_wsgi_app()
 
@@ -25,6 +26,7 @@ def speedtest(environ, start_fn):
             results_dict = s.results.dict()
             DOWNLOAD_SPEED.set(results_dict["download"] / 1000)
             UPLOAD_SPEED.set(results_dict["upload"] / 1000)
+            PING.set(results_dict["ping"])
         except:
             print("Unexpected error:", sys.exc_info()[0])
         return metrics_app(environ, start_fn)
