@@ -16,9 +16,3 @@ script:
   - docker ps | grep -q speedtest-exporter
   - python tests.py
   - docker logs speedtest-exporter 2>&1 | grep -c error || true
-
-deploy:
-  provider: script
-  script: bash docker_push.sh
-  on:
-    branch: master
