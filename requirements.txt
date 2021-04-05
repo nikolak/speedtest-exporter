@@ -1,2 +1,2 @@
 speedtest-cli==2.1.2
-prometheus-client==0.9.0
+prometheus-client==0.10.0
